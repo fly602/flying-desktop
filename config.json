@@ -1,0 +1,30 @@
+{
+    "desktop": {
+        "title": "Flying Desktop",
+        "fullscreen": true,
+        "hide_mouse": true,
+        "background_image": "background.jpg",
+        "icon_size": 200,
+        "icon_spacing": 100
+    },
+    "apps": [
+        {
+            "name": "应用1",
+            "description": "示例应用1",
+            "command": "echo 'Hello App 1'",
+            "icon_text": "1",
+            "enabled": true
+        },
+        {
+            "name": "应用2", 
+            "description": "示例应用2",
+            "command": "echo 'Hello App 2'",
+            "icon_text": "2",
+            "enabled": true
+        }
+    ],
+    "controls": {
+        "input_delay": 300,
+        "joystick_deadzone": 0.5
+    }
+}

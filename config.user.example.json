@@ -1,0 +1,32 @@
+{
+    "desktop": {
+        "title": "我的桌面",
+        "background_image": "/home/user/Pictures/my_background.jpg"
+    },
+    "apps": [
+        {
+            "name": "Firefox",
+            "description": "网页浏览器",
+            "command": "firefox",
+            "icon_text": "F",
+            "enabled": true
+        },
+        {
+            "name": "文件管理器",
+            "description": "打开文件管理器",
+            "command": "nautilus",
+            "icon_text": "📁",
+            "enabled": true
+        },
+        {
+            "name": "终端",
+            "description": "打开终端",
+            "command": "gnome-terminal",
+            "icon_text": "T",
+            "enabled": true
+        }
+    ],
+    "controls": {
+        "input_delay": 200
+    }
+}

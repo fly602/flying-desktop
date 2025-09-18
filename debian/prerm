@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    remove|upgrade|deconfigure)
+        # 停止可能正在运行的进程
+        pkill -f flying-desktop || true
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

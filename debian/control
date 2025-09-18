@@ -1,0 +1,30 @@
+Source: flying-desktop
+Section: utils
+Priority: optional
+Maintainer: fly602 <fly602@example.com>
+Build-Depends: debhelper-compat (= 13),
+               python3 (>= 3.6),
+               python3-venv,
+               python3-pip
+Standards-Version: 4.6.2
+Homepage: https://github.com/fly602/flying-desktop
+
+Package: flying-desktop
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: xorg,
+            pulseaudio
+Suggests: joystick,
+          jstest-gtk
+Description: Flying Desktop - Lightweight launcher with gamepad support
+ A lightweight desktop environment for launching applications with
+ keyboard and gamepad support. Features include customizable interface,
+ layered configuration system, and background image support.
+ .
+ The application is built as a self-contained binary using PyInstaller,
+ minimizing runtime dependencies. It supports launching custom applications
+ and provides a simple, full-screen interface suitable for various
+ application launching scenarios.
+ .
+ Configuration is managed through a layered system supporting both
+ system-wide and user-specific settings.

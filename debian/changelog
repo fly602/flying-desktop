@@ -1,0 +1,8 @@
+flying-desktop (1.0.0-1) unstable; urgency=medium
+
+  * Initial release
+  * Flying Desktop launcher with gamepad support
+  * Layered configuration system
+  * Support for custom applications and backgrounds
+
+ -- fly602 <fly602@example.com>  Wed, 18 Sep 2024 14:00:00 +0800

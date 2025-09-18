@@ -1,0 +1,22 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    configure)
+        # 确保程序有执行权限
+        chmod +x /opt/simple_desktop/simple-desktop 2>/dev/null || true
+        
+        echo "Flying Desktop 安装完成!"
+        echo "程序位置: /opt/simple_desktop/flying-desktop"
+        echo "系统配置: /usr/share/flying-desktop/config.json"
+        echo "用户配置示例: /usr/share/flying-desktop/config.user.example.json"
+        echo ""
+        echo "创建用户配置:"
+        echo "  mkdir -p ~/.config/flying-desktop"
+        echo "  cp /usr/share/flying-desktop/config.user.example.json ~/.config/flying-desktop/config.json"
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

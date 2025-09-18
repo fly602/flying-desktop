@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# PyInstaller
+*.spec
+
+# IDE
+.vscode/
+.cursor/
+*.swp
+*.swo
+*~
+
+# Debian packaging
+debian/.debhelper/
+debian/simple-desktop/
+debian/files
+debian/debhelper-build-stamp
+debian/*.substvars
+debian/*.log
+
+# Build artifacts
+tools/
+squashfs-root/
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
+
+# OS
+.DS_Store
+Thumbs.db
+
+# User config (keep example)
+!config.user.example.json
