@@ -1,7 +1,14 @@
 {
     "desktop": {
         "title": "我的桌面",
-        "background_image": "/home/user/Pictures/my_background.jpg"
+        "font_path": null,
+        "background_image": "assets/backgrounds/space_nebula.png",
+        "background_images": [
+            "assets/backgrounds/cosmic_waves.png",
+            "assets/backgrounds/digital_grid.png"
+        ],
+        "background_duration": 8000,
+        "transition_duration": 1500
     },
     "apps": [
         {

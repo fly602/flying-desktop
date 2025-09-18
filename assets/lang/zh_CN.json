@@ -1,0 +1,44 @@
+{
+    "app_name": "Flying Desktop",
+    "settings": "设置",
+    "back": "返回",
+    "save": "保存",
+    "cancel": "取消",
+    "resolution": "分辨率",
+    "language": "语言",
+    "font": "字体",
+    "sound_effects": "音效",
+    "add_app": "添加应用",
+    "enabled": "启用",
+    "disabled": "禁用",
+    "custom": "自定义",
+    "default": "默认",
+    "instructions": {
+        "select": "使用方向键或手柄左摇杆选择应用",
+        "confirm": "按确认键(A键/回车)启动应用",
+        "back": "按返回键(B键/ESC)退出桌面",
+        "settings": "按设置键(Y键/Tab)打开设置"
+    },
+    "resolutions": {
+        "auto": "自动检测",
+        "1920x1080": "1920×1080 (Full HD)",
+        "1366x768": "1366×768 (HD)",
+        "1280x720": "1280×720 (HD Ready)",
+        "1024x768": "1024×768 (XGA)",
+        "800x600": "800×600 (SVGA)"
+    },
+    "languages": {
+        "zh_CN": "简体中文",
+        "en_US": "English",
+        "ja_JP": "日本語"
+    },
+    "fonts": {
+        "auto": "自动选择",
+        "wqy_zenhei": "文泉驿正黑",
+        "wqy_microhei": "文泉驿微米黑",
+        "noto_cjk": "Noto Sans CJK",
+        "source_han": "思源黑体",
+        "droid_fallback": "Droid Sans Fallback",
+        "unifont": "Unifont"
+    }
+}

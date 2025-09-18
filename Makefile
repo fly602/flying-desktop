@@ -9,7 +9,10 @@ build:
 	@echo "构建二进制文件..."
 	$(PYTHON) -m venv .venv || true
 	.venv/bin/pip install -U pip pyinstaller pygame
-	.venv/bin/pyinstaller --name flying-desktop --onefile --clean --noconfirm simple_desktop.py
+	.venv/bin/pyinstaller --name flying-desktop --onefile --clean --noconfirm \
+		--add-data "assets:assets" \
+		--add-data "config.json:." \
+		main.py
 	@echo "构建完成: dist/flying-desktop"
 
 # 运行程序

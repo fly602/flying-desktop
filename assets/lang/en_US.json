@@ -1,0 +1,44 @@
+{
+    "app_name": "Flying Desktop",
+    "settings": "Settings",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "resolution": "Resolution",
+    "language": "Language",
+    "font": "Font",
+    "sound_effects": "Sound Effects",
+    "add_app": "Add Application",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "custom": "Custom",
+    "default": "Default",
+    "instructions": {
+        "select": "Use arrow keys or left stick to select apps",
+        "confirm": "Press confirm key (A/Enter) to launch app",
+        "back": "Press back key (B/ESC) to exit desktop",
+        "settings": "Press settings key (Y/Tab) to open settings"
+    },
+    "resolutions": {
+        "auto": "Auto Detect",
+        "1920x1080": "1920×1080 (Full HD)",
+        "1366x768": "1366×768 (HD)",
+        "1280x720": "1280×720 (HD Ready)",
+        "1024x768": "1024×768 (XGA)",
+        "800x600": "800×600 (SVGA)"
+    },
+    "languages": {
+        "zh_CN": "简体中文",
+        "en_US": "English",
+        "ja_JP": "日本語"
+    },
+    "fonts": {
+        "auto": "Auto Select",
+        "wqy_zenhei": "WenQuanYi Zen Hei",
+        "wqy_microhei": "WenQuanYi Micro Hei",
+        "noto_cjk": "Noto Sans CJK",
+        "source_han": "Source Han Sans",
+        "droid_fallback": "Droid Sans Fallback",
+        "unifont": "Unifont"
+    }
+}

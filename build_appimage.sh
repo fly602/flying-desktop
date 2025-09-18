@@ -15,7 +15,12 @@ mkdir -p "$APPDIR/usr/bin"
 # 复制程序文件
 cp dist/flying-desktop "$APPDIR/usr/bin/"
 cp config.json "$APPDIR/usr/bin/"
-chmod +x "$APPDIR/usr/bin/simple-desktop"
+chmod +x "$APPDIR/usr/bin/flying-desktop"
+
+# 复制资源文件
+if [ -d "assets" ]; then
+	cp -rf assets "$APPDIR/usr/bin/" || true
+fi
 
 # 创建AppRun
 cat > "$APPDIR/AppRun" << 'EOF'

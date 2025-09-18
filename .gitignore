@@ -63,3 +63,11 @@ Thumbs.db
 
 # User config (keep example)
 !config.user.example.json
+
+# Old files (to be removed)
+simple_desktop.py# 
+Test files
+test_*.py
+
+# AppImage
+*.AppImage

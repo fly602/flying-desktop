@@ -3,9 +3,30 @@
         "title": "Flying Desktop",
         "fullscreen": true,
         "hide_mouse": true,
-        "background_image": "background.jpg",
+        "font_path": null,
+        "background_image": "assets/backgrounds/default.png",
+        "background_images": [
+            "assets/backgrounds/cosmic_waves.png",
+            "assets/backgrounds/space_nebula.png",
+            "assets/backgrounds/digital_grid.png",
+            "assets/backgrounds/abstract_flow.png"
+        ],
+        "background_duration": 10000,
+        "transition_duration": 2000,
         "icon_size": 200,
         "icon_spacing": 100
+    },
+    "display": {
+        "width": 0,
+        "height": 0,
+        "fullscreen": true
+    },
+    "ui": {
+        "language": "zh_CN"
+    },
+    "audio": {
+        "sound_effects": true,
+        "volume": 0.5
     },
     "apps": [
         {

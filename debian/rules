@@ -9,7 +9,7 @@ override_dh_auto_build:
 	# 创建虚拟环境并构建二进制
 	python3 -m venv .venv
 	.venv/bin/pip install -U pip pyinstaller pygame
-	.venv/bin/pyinstaller --name flying-desktop --onefile --clean --noconfirm simple_desktop.py
+	.venv/bin/pyinstaller --name flying-desktop --onefile --clean --noconfirm main.py
 
 override_dh_auto_install:
 	# 安装二进制文件
@@ -23,6 +23,9 @@ override_dh_auto_install:
 	
 	# 安装用户配置示例
 	cp config.user.example.json debian/flying-desktop/usr/share/flying-desktop/
+	
+	# 安装资源文件
+	cp -r assets debian/flying-desktop/usr/share/flying-desktop/
 
 override_dh_auto_clean:
 	rm -rf .venv build dist *.spec
