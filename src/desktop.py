@@ -16,6 +16,7 @@ from .app_config import AppConfigLoader
 from .i18n import I18n
 from .audio import AudioManager
 from .settings import SettingsPage
+from .confirm_dialog import ConfirmDialog
 
 
 class FlyingDesktop:
@@ -60,6 +61,14 @@ class FlyingDesktop:
         # 按键状态跟踪
         self.keys_pressed = set()
         self.last_action_time = 0
+        
+        # 删除确认对话框
+        self.delete_confirm_dialog = ConfirmDialog(
+            "删除应用",
+            "确定要删除这个应用吗？此操作不可撤销。",
+            "删除",
+            "取消"
+        )
     
     def run(self):
         """主运行循环"""
@@ -109,6 +118,34 @@ class FlyingDesktop:
                         if current_time - self.last_action_time < 300:
                             continue
                         
+                        # 处理删除确认对话框输入
+                        if self.delete_confirm_dialog.is_visible():
+                            dialog_result = self.delete_confirm_dialog.handle_input(event)
+                            if dialog_result == 'confirm':
+                                # 执行删除操作
+                                if self.apps and 0 <= self.selected_app < len(self.apps):
+                                    app_to_delete = self.apps[self.selected_app]
+                                    app_name = app_to_delete['name']
+                                    success, message = self.app_config.remove_application(app_name)
+                                    if success:
+                                        self.audio.play('confirm')
+                                        self.app_config.refresh_apps()
+                                        self.apps = self.app_config.get_apps()
+                                        # 调整选中索引
+                                        if self.selected_app >= len(self.apps) and len(self.apps) > 0:
+                                            self.selected_app = len(self.apps) - 1
+                                        elif len(self.apps) == 0:
+                                            self.selected_app = 0
+                                        print(f"已删除应用: {app_name}")
+                                    else:
+                                        self.audio.play('error')
+                                        print(f"删除应用失败: {message}")
+                                self.delete_confirm_dialog.hide()
+                            elif dialog_result == 'cancel':
+                                self.delete_confirm_dialog.hide()
+                                self.audio.play('back')
+                            continue
+                        
                         if event.key == pygame.K_ESCAPE:
                             running = False
                         elif event.key == pygame.K_LEFT and len(self.apps) > 0:
@@ -123,10 +160,55 @@ class FlyingDesktop:
                             self.app_launcher.launch_app(self.apps[self.selected_app])
                             self.audio.play('confirm')
                             self.last_action_time = current_time
+                        elif event.key == pygame.K_DELETE and self.apps:
+                            # 显示删除确认对话框
+                            if self.apps and 0 <= self.selected_app < len(self.apps):
+                                app_name = self.apps[self.selected_app]['name']
+                                self.delete_confirm_dialog.show(
+                                    title="删除应用",
+                                    message=f"确定要删除应用 '{app_name}' 吗？\n此操作将从列表中移除该应用。"
+                                )
+                                self.audio.play('select')
+                            self.last_action_time = current_time
                         elif event.key == pygame.K_TAB:
                             self.current_view = 'settings'
                             self.audio.play('confirm')
                             self.last_action_time = current_time
+            
+            # 处理长按（在所有视图中都支持）
+            current_time = pygame.time.get_ticks()
+            
+            # 键盘长按处理
+            key_hold_actions = self.input_handler.handle_key_hold(current_time)
+            for action in key_hold_actions:
+                if self.current_view == 'desktop' and not self.delete_confirm_dialog.is_visible():
+                    if action == 'left' and len(self.apps) > 0:
+                        self.selected_app = (self.selected_app - 1) % len(self.apps)
+                        self.audio.play('select')
+                    elif action == 'right' and len(self.apps) > 0:
+                        self.selected_app = (self.selected_app + 1) % len(self.apps)
+                        self.audio.play('select')
+                elif self.current_view == 'settings':
+                    # 设置页面的长按处理
+                    if action in ['up', 'down']:
+                        # 这里可以添加设置页面的长按滚动支持
+                        pass
+            
+            # 手柄长按处理
+            joystick_hold_actions = self.input_handler.handle_joystick_hold(current_time)
+            for action in joystick_hold_actions:
+                if self.current_view == 'desktop' and not self.delete_confirm_dialog.is_visible():
+                    if action == 'left' and len(self.apps) > 0:
+                        self.selected_app = (self.selected_app - 1) % len(self.apps)
+                        self.audio.play('select')
+                    elif action == 'right' and len(self.apps) > 0:
+                        self.selected_app = (self.selected_app + 1) % len(self.apps)
+                        self.audio.play('select')
+                elif self.current_view == 'settings':
+                    # 设置页面的长按处理
+                    if action in ['up', 'down']:
+                        # 这里可以添加设置页面的长按滚动支持
+                        pass
             
             # 渲染界面
             if self.current_view == 'settings':
@@ -148,7 +230,8 @@ class FlyingDesktop:
             else:
                 # 渲染桌面
                 if self.apps:
-                    self.renderer.render_frame(self.apps, self.selected_app, "", show_title=False)
+                    # 渲染桌面内容（包含对话框）
+                    self._render_desktop_with_dialog()
                 else:
                     self._render_no_apps()
             
@@ -176,6 +259,23 @@ class FlyingDesktop:
     def _render_no_apps_background(self):
         """渲染无应用背景（不刷新显示）"""
         self._render_no_apps_content()
+    
+    def _render_desktop_with_dialog(self):
+        """渲染桌面内容（包含删除确认对话框）"""
+        # 先渲染桌面内容（不刷新显示）
+        self.renderer.render_background_only(self.apps, self.selected_app, "", show_title=False)
+        
+        # 如果有删除确认对话框，渲染它
+        if self.delete_confirm_dialog.is_visible():
+            self.delete_confirm_dialog.render(
+                self.renderer.screen,
+                self.renderer.large_font,
+                self.renderer.medium_font,
+                self.renderer.small_font
+            )
+        
+        # 最后刷新显示
+        pygame.display.flip()
     
     def _render_no_apps_content(self):
         """渲染无应用内容（不包含显示刷新）"""

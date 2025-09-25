@@ -409,13 +409,14 @@ class Renderer:
             "使用方向键或手柄左摇杆选择应用",
             "按确认键(A键/回车)启动应用",
             "按Tab键或Y键打开设置",
+            "按Del键删除选中的应用",
             "按ESC键退出桌面"
         ]
         
-        y_start = self.screen_height - 150
+        y_start = self.screen_height - 180
         for i, instruction in enumerate(instructions):
             text = self.small_font.render(instruction, True, self.WHITE)
-            text_rect = text.get_rect(center=(self.screen_width // 2, y_start + i * 30))
+            text_rect = text.get_rect(center=(self.screen_width // 2, y_start + i * 25))
             self.screen.blit(text, text_rect)
     
     def render_frame(self, apps, selected_app, title="", show_title=True):

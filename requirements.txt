@@ -1,1 +1,3 @@
 pygame>=2.1.0
+cairosvg>=2.5.0
+Pillow>=8.0.0

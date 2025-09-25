@@ -98,44 +98,69 @@ class DesktopParser:
     
     def _parse_desktop_file(self, desktop_file):
         """解析单个desktop文件"""
-        config = configparser.RawConfigParser()  # 使用RawConfigParser避免插值问题
-        config.read(desktop_file, encoding='utf-8')
-        
-        if 'Desktop Entry' not in config:
+        try:
+            # 使用更robust的方法解析desktop文件
+            with open(desktop_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # 手动解析基本的键值对
+            entry_data = {}
+            current_section = None
+            
+            for line in content.split('\n'):
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                
+                if line.startswith('[') and line.endswith(']'):
+                    current_section = line[1:-1]
+                    continue
+                
+                if current_section == 'Desktop Entry' and '=' in line:
+                    key, value = line.split('=', 1)
+                    key = key.strip()
+                    value = value.strip()
+                    entry_data[key] = value
+            
+            if not entry_data:
+                return None
+            
+            # 跳过隐藏的应用（但在手动添加时允许）
+            # 这里不跳过，让调用者决定是否添加
+            
+            # 检查应用类型
+            if entry_data.get('Type', '') != 'Application':
+                return None
+            
+            # 获取名称
+            name = entry_data.get('Name', '')
+            if not name:
+                return None
+            
+            # 获取执行命令
+            exec_cmd = entry_data.get('Exec', '')
+            if not exec_cmd:
+                return None
+            
+            # 清理Exec命令（移除%f, %F, %u, %U等参数）
+            exec_cmd = self._clean_exec_command(exec_cmd)
+            
+            # 获取分类
+            categories_str = entry_data.get('Categories', '')
+            categories = categories_str.split(';') if categories_str else []
+            
+            return {
+                'name': name,
+                'description': entry_data.get('Comment', ''),
+                'exec': exec_cmd,
+                'icon': entry_data.get('Icon', ''),
+                'categories': categories,
+                'desktop_file': str(desktop_file),
+                'type': 'desktop'
+            }
+        except Exception as e:
+            print(f"解析desktop文件失败 {desktop_file}: {e}")
             return None
-        
-        entry = config['Desktop Entry']
-        
-        # 跳过隐藏的应用
-        if entry.getboolean('Hidden', False) or entry.getboolean('NoDisplay', False):
-            return None
-        
-        # 检查应用类型
-        if entry.get('Type', '') != 'Application':
-            return None
-        
-        # 获取本地化名称
-        name = self._get_localized_value(entry, 'Name')
-        if not name:
-            return None
-        
-        # 获取执行命令
-        exec_cmd = entry.get('Exec', '')
-        if not exec_cmd:
-            return None
-        
-        # 清理Exec命令（移除%f, %F, %u, %U等参数）
-        exec_cmd = self._clean_exec_command(exec_cmd)
-        
-        return {
-            'name': name,
-            'description': self._get_localized_value(entry, 'Comment', ''),
-            'exec': exec_cmd,
-            'icon': entry.get('Icon', ''),
-            'categories': entry.get('Categories', '').split(';'),
-            'desktop_file': str(desktop_file),
-            'type': 'desktop'
-        }
     
     def add_desktop_file(self, desktop_file_path):
         """手动添加desktop文件"""
