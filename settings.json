@@ -1,0 +1,273 @@
+{
+  "version": "1.0.0",
+  "description": "Flying Desktop 设置项配置",
+  "categories": [
+    {
+      "id": "general",
+      "name": "通用设置",
+      "icon": "⚙️",
+      "description": "通用系统设置",
+      "items": [
+        {
+          "id": "language",
+          "name": "语言设置",
+          "description": "选择系统显示语言",
+          "type": "select",
+          "icon": "🌐",
+          "options": [
+            {"value": "zh_CN", "label": "简体中文"},
+            {"value": "en_US", "label": "English"},
+            {"value": "ja_JP", "label": "日本語"}
+          ],
+          "default": "zh_CN",
+          "config_key": "ui.language"
+        },
+        {
+          "id": "theme",
+          "name": "主题设置",
+          "description": "选择界面主题风格",
+          "type": "select",
+          "icon": "🎨",
+          "options": [
+            {"value": "dark", "label": "深色主题"},
+            {"value": "light", "label": "浅色主题"},
+            {"value": "auto", "label": "自动切换"}
+          ],
+          "default": "dark",
+          "config_key": "ui.theme"
+        },
+        {
+          "id": "font",
+          "name": "字体设置",
+          "description": "选择系统显示字体",
+          "type": "select",
+          "icon": "🔤",
+          "options": [
+            {"value": "auto", "label": "自动检测"},
+            {"value": "WenQuanYi Micro Hei", "label": "文泉驿微米黑"},
+            {"value": "Noto Sans CJK SC", "label": "思源黑体"},
+            {"value": "Microsoft YaHei", "label": "微软雅黑"}
+          ],
+          "default": "auto",
+          "config_key": "desktop.font_path"
+        }
+      ]
+    },
+    {
+      "id": "display",
+      "name": "显示设置",
+      "icon": "🖥️",
+      "description": "显示和分辨率设置",
+      "items": [
+        {
+          "id": "resolution",
+          "name": "分辨率设置",
+          "description": "选择显示分辨率",
+          "type": "select",
+          "icon": "📺",
+          "options": [
+            {"value": "auto", "label": "自动检测"},
+            {"value": "1920x1080", "label": "1920x1080 (Full HD)"},
+            {"value": "1366x768", "label": "1366x768 (HD)"},
+            {"value": "1280x720", "label": "1280x720 (HD Ready)"},
+            {"value": "1024x768", "label": "1024x768 (XGA)"},
+            {"value": "800x600", "label": "800x600 (SVGA)"}
+          ],
+          "default": "auto",
+          "config_key": "display.resolution"
+        },
+        {
+          "id": "fullscreen",
+          "name": "全屏模式",
+          "description": "启用或禁用全屏显示",
+          "type": "toggle",
+          "icon": "🔲",
+          "default": true,
+          "config_key": "display.fullscreen"
+        },
+        {
+          "id": "background_cycle",
+          "name": "背景轮换",
+          "description": "启用背景图片自动轮换",
+          "type": "toggle",
+          "icon": "🔄",
+          "default": true,
+          "config_key": "desktop.background_cycle"
+        },
+        {
+          "id": "background_duration",
+          "name": "背景切换时间",
+          "description": "背景图片切换间隔（毫秒）",
+          "type": "range",
+          "icon": "⏱️",
+          "min": 3000,
+          "max": 30000,
+          "step": 1000,
+          "default": 10000,
+          "config_key": "desktop.background_duration"
+        }
+      ]
+    },
+    {
+      "id": "audio",
+      "name": "音频设置",
+      "icon": "🔊",
+      "description": "声音效果和音量设置",
+      "items": [
+        {
+          "id": "sound_effects",
+          "name": "音效开关",
+          "description": "启用或禁用界面音效",
+          "type": "toggle",
+          "icon": "🎵",
+          "default": true,
+          "config_key": "audio.sound_effects"
+        },
+        {
+          "id": "volume",
+          "name": "音量大小",
+          "description": "调整系统音量级别",
+          "type": "range",
+          "icon": "🔉",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "config_key": "audio.volume"
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "name": "控制设置",
+      "icon": "🎮",
+      "description": "输入和控制设置",
+      "items": [
+        {
+          "id": "input_delay",
+          "name": "输入延迟",
+          "description": "按键输入响应延迟（毫秒）",
+          "type": "range",
+          "icon": "⏱️",
+          "min": 100,
+          "max": 1000,
+          "step": 50,
+          "default": 300,
+          "config_key": "controls.input_delay"
+        },
+        {
+          "id": "joystick_deadzone",
+          "name": "摇杆死区",
+          "description": "摇杆输入死区大小",
+          "type": "range",
+          "icon": "🎛️",
+          "min": 0.1,
+          "max": 0.9,
+          "step": 0.1,
+          "default": 0.5,
+          "config_key": "controls.joystick_deadzone"
+        },
+        {
+          "id": "hide_mouse",
+          "name": "隐藏鼠标",
+          "description": "自动隐藏鼠标光标",
+          "type": "toggle",
+          "icon": "🐭",
+          "default": true,
+          "config_key": "desktop.hide_mouse"
+        }
+      ]
+    },
+    {
+      "id": "applications",
+      "name": "应用管理",
+      "icon": "📱",
+      "description": "应用程序管理设置",
+      "items": [
+        {
+          "id": "add_app",
+          "name": "添加应用",
+          "description": "添加新的应用程序到桌面",
+          "type": "action",
+          "icon": "➕",
+          "action": "open_file_browser"
+        },
+        {
+          "id": "icon_size",
+          "name": "图标大小",
+          "description": "调整桌面图标显示大小",
+          "type": "range",
+          "icon": "🖼️",
+          "min": 100,
+          "max": 300,
+          "step": 20,
+          "default": 200,
+          "config_key": "desktop.icon_size"
+        },
+        {
+          "id": "icon_spacing",
+          "name": "图标间距",
+          "description": "调整桌面图标之间的间距",
+          "type": "range",
+          "icon": "↔️",
+          "min": 50,
+          "max": 200,
+          "step": 10,
+          "default": 100,
+          "config_key": "desktop.icon_spacing"
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "name": "高级设置",
+      "icon": "🔧",
+      "description": "高级系统配置选项",
+      "items": [
+        {
+          "id": "debug_mode",
+          "name": "调试模式",
+          "description": "启用调试信息显示",
+          "type": "toggle",
+          "icon": "🐞",
+          "default": false,
+          "config_key": "system.debug"
+        },
+        {
+          "id": "log_level",
+          "name": "日志级别",
+          "description": "设置系统日志记录级别",
+          "type": "select",
+          "icon": "📝",
+          "options": [
+            {"value": "debug", "label": "调试"},
+            {"value": "info", "label": "信息"},
+            {"value": "warning", "label": "警告"},
+            {"value": "error", "label": "错误"}
+          ],
+          "default": "info",
+          "config_key": "system.log_level"
+        },
+        {
+          "id": "reset_settings",
+          "name": "重置设置",
+          "description": "恢复所有设置为默认值",
+          "type": "action",
+          "icon": "🔄",
+          "action": "reset_all_settings",
+          "confirm": true
+        }
+      ]
+    }
+  ],
+  "layout": {
+    "categories_per_row": 3,
+    "items_per_row": 1,
+    "category_spacing": 30,
+    "item_spacing": 20,
+    "category_padding": 20,
+    "item_padding": 15,
+    "border_radius": 12,
+    "animation_duration": 0.3
+  }
+}

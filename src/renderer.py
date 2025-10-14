@@ -7,6 +7,7 @@
 
 import pygame
 from pathlib import Path
+from .json_style_manager import get_style_manager
 
 
 class Renderer:
@@ -15,8 +16,15 @@ class Renderer:
     def __init__(self, config):
         self.config = config
         
-        # 初始化pygame显示
+        # 初始化pygame显示（必须在获取显示信息之前）
         pygame.init()
+        
+        # 初始化样式管理器
+        self.style_manager = get_style_manager()
+        self.style_manager.set_screen_size(
+            pygame.display.Info().current_w, 
+            pygame.display.Info().current_h
+        )
         
         # 隐藏鼠标光标
         if config.get("desktop.hide_mouse", True):
@@ -40,21 +48,30 @@ class Renderer:
         
         pygame.display.set_caption(config.get("desktop.title", "Flying Desktop"))
         
-        # 颜色定义
-        self.BLACK = (0, 0, 0)
-        self.WHITE = (255, 255, 255)
-        self.BLUE = (100, 150, 255)
-        self.LIGHT_BLUE = (150, 200, 255)
-        self.GRAY = (128, 128, 128)
+        # 从样式管理器获取颜色定义
+        self.BLACK = (0, 0, 0)  # 保留基本黑色
+        self.WHITE = self.style_manager.get_color("text_color")
+        self.BLUE = self.style_manager.get_color("primary_color")
+        self.LIGHT_BLUE = self.style_manager.get_color("highlight_color")
+        self.GRAY = self.style_manager.get_color("secondary_color")
         
-        # 字体设置
-        self.large_font = self._load_font(96)
-        self.medium_font = self._load_font(48)
-        self.small_font = self._load_font(32)
+        # 字体设置 - 使用样式管理器获取字体大小
+        desktop_style = self.style_manager.get_desktop_style()
+        app_icon_style = desktop_style.get("app_icon", {})
         
-        # 图标设置
-        self.icon_size = config.get("desktop.icon_size", 200)
-        self.icon_spacing = config.get("desktop.icon_spacing", 100)
+        # 获取字体大小配置
+        title_font_size = desktop_style.get("title", {}).get("font_size", 96)
+        icon_font_size = app_icon_style.get("icon", {}).get("font_size", 96)
+        name_font_size = app_icon_style.get("name", {}).get("font_size", 48)
+        desc_font_size = app_icon_style.get("description", {}).get("font_size", 32)
+        
+        self.large_font = self._load_font(title_font_size)
+        self.medium_font = self._load_font(name_font_size)
+        self.small_font = self._load_font(desc_font_size)
+        
+        # 图标设置 - 使用样式管理器获取尺寸
+        self.icon_size = app_icon_style.get("size", 200)
+        self.icon_spacing = app_icon_style.get("spacing", 100)
         
         # 加载背景
         self.load_background()
@@ -284,15 +301,29 @@ class Renderer:
         """绘制应用图标"""
         x, y = position
         
+        # 从样式管理器获取桌面样式配置
+        desktop_style = self.style_manager.get_desktop_style()
+        app_icon_style = desktop_style.get("app_icon", {})
+        background_style = app_icon_style.get("background", {})
+        
+        # 获取颜色配置
+        normal_color = background_style.get("normal", [100, 150, 255])
+        selected_color = background_style.get("selected", [150, 200, 255])
+        border_normal = background_style.get("border_color", {}).get("normal", [128, 128, 128])
+        border_selected = background_style.get("border_color", {}).get("selected", [255, 255, 255])
+        border_width_normal = background_style.get("border_width", {}).get("normal", 2)
+        border_width_selected = background_style.get("border_width", {}).get("selected", 4)
+        border_radius = background_style.get("border_radius", 20)
+        
         # 图标背景
-        color = self.LIGHT_BLUE if is_selected else self.BLUE
-        border_color = self.WHITE if is_selected else self.GRAY
-        border_width = 4 if is_selected else 2
+        color = self.style_manager.get_color(selected_color) if is_selected else self.style_manager.get_color(normal_color)
+        border_color = self.style_manager.get_color(border_selected) if is_selected else self.style_manager.get_color(border_normal)
+        border_width = border_width_selected if is_selected else border_width_normal
         
         # 绘制圆角矩形背景
         icon_rect = pygame.Rect(x, y, self.icon_size, self.icon_size)
-        pygame.draw.rect(self.screen, color, icon_rect, border_radius=20)
-        pygame.draw.rect(self.screen, border_color, icon_rect, border_width, border_radius=20)
+        pygame.draw.rect(self.screen, color, icon_rect, border_radius=border_radius)
+        pygame.draw.rect(self.screen, border_color, icon_rect, border_width, border_radius=border_radius)
         
         # 尝试绘制图片图标
         icon_image_path = app.get("icon_image")
@@ -305,10 +336,17 @@ class Renderer:
             text_rect = icon_text.get_rect(center=(x + self.icon_size // 2, y + self.icon_size // 2))
             self.screen.blit(icon_text, text_rect)
         
-        # 绘制应用名称
-        name_text = self.medium_font.render(app["name"], True, self.WHITE)
-        name_rect = name_text.get_rect(center=(x + self.icon_size // 2, y + self.icon_size + 30))
-        self.screen.blit(name_text, name_rect)
+        # 绘制应用名称（调整位置和字体大小，支持emoji）
+        if isinstance(app["name"], str) and app["name"].startswith("️"):
+            # 处理emoji占位逻辑
+            emoji_text = self.small_font.render(app["name"], True, self.WHITE)
+            emoji_rect = emoji_text.get_rect(center=(x + self.icon_size // 2, y + self.icon_size // 2 - 5))
+            self.screen.blit(emoji_text, emoji_rect)
+        else:
+            # 正常文字绘制
+            name_text = self.medium_font.render(app["name"], True, self.WHITE)
+            name_rect = name_text.get_rect(center=(x + self.icon_size // 2, y + self.icon_size // 2 + 15))
+            self.screen.blit(name_text, name_rect)
         
         # 如果选中，显示描述
         if is_selected:

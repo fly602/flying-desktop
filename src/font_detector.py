@@ -50,6 +50,16 @@ class FontDetector:
         # 预定义的中文字体列表（按优先级排序）
         known_fonts = [
             {
+                'key': 'noto_color_emoji',
+                'name': 'Noto Color Emoji',
+                'paths': [
+                    '/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf',
+                    '/usr/share/fonts/noto/NotoColorEmoji.ttf',
+                    '/usr/share/fonts/opentype/noto/NotoColorEmoji.ttf'
+                ],
+                'priority': 0  # emoji字体最高优先级
+            },
+            {
                 'key': 'wqy_zenhei',
                 'name': '文泉驿正黑',
                 'paths': [
@@ -197,7 +207,7 @@ class FontDetector:
         return True
     
     def _test_font_rendering(self, font_path):
-        """测试字体是否能正确渲染中文"""
+        """测试字体是否能正确渲染中文和emoji"""
         if not font_path or not Path(font_path).exists():
             return True  # 自动选择选项
         
@@ -225,6 +235,47 @@ class FontDetector:
             print(f"字体测试失败 {font_path}: {e}")
             self.font_cache[font_path] = False
             return False
+    
+    def test_emoji_rendering(self, font_path):
+        """专门测试emoji渲染能力"""
+        if not font_path or not Path(font_path).exists():
+            return False
+        
+        try:
+            # 尝试加载字体
+            font = pygame.font.Font(font_path, 24)
+            
+            # 测试渲染emoji
+            emoji_text = "🔤📺🌐"
+            surface = font.render(emoji_text, True, (255, 255, 255))
+            
+            # 检查是否能渲染emoji（宽度应该大于0）
+            if surface.get_width() > 10:  # emoji应该有一定宽度
+                return True
+            else:
+                return False
+                
+        except Exception as e:
+            print(f"emoji测试失败 {font_path}: {e}")
+            return False
+    
+    def get_emoji_font(self):
+        """获取支持emoji的字体"""
+        # 优先检查Noto Color Emoji
+        emoji_font_paths = [
+            '/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf',
+            '/usr/share/fonts/noto/NotoColorEmoji.ttf',
+            '/usr/share/fonts/opentype/noto/NotoColorEmoji.ttf',
+            '/System/Library/Fonts/Apple Color Emoji.ttc',  # macOS
+            'C:/Windows/Fonts/seguiemj.ttf'  # Windows Segoe UI Emoji
+        ]
+        
+        for path in emoji_font_paths:
+            if Path(path).exists() and self.test_emoji_rendering(path):
+                return path
+        
+        # 如果没有专门的emoji字体，返回系统默认字体
+        return None
     
     def get_font_options(self):
         """获取字体选项列表（用于设置界面）"""

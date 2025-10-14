@@ -1,0 +1,309 @@
+{
+  "version": "1.0.0",
+  "description": "Flying Desktop UI 样式配置",
+  "global": {
+    "font_family": "WenQuanYi Micro Hei",
+    "default_margin": 0,
+    "default_padding": 0,
+    "animation_duration": 0.2,
+    "transition_speed": 0.1
+  },
+  "themes": {
+    "dark": {
+      "primary_color": [100, 150, 255],
+      "secondary_color": [128, 128, 128],
+      "background_color": [0, 0, 0, 200],
+      "text_color": [255, 255, 255],
+      "highlight_color": [150, 200, 255],
+      "error_color": [255, 100, 100],
+      "success_color": [100, 255, 100]
+    },
+    "light": {
+      "primary_color": [0, 102, 204],
+      "secondary_color": [204, 204, 204],
+      "background_color": [255, 255, 255, 230],
+      "text_color": [0, 0, 0],
+      "highlight_color": [0, 153, 255],
+      "error_color": [255, 0, 0],
+      "success_color": [0, 204, 0]
+    }
+  },
+  "emoji": {
+    "font_size_mapping": {
+      "small": 16,
+      "medium": 20,
+      "large": 24,
+      "xlarge": 32,
+      "xxlarge": 40
+    },
+    "font_paths": [
+      "/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf",
+      "/usr/share/fonts/noto/NotoColorEmoji.ttf",
+      "/usr/share/fonts/opentype/noto/NotoColorEmoji.ttf",
+      "/System/Library/Fonts/Apple Color Emoji.ttc",
+      "C:/Windows/Fonts/seguiemj.ttf"
+    ],
+    "size_compensation": {
+      "16": 20,
+      "20": 24,
+      "24": 28,
+      "28": 32,
+      "32": 36,
+      "36": 40,
+      "48": 48,
+      "96": 80
+    }
+  },
+  "settings_page": {
+    "background": {
+      "color": [0, 0, 0, 200],
+      "blur_radius": 0
+    },
+    "title": {
+      "font_size": 36,
+      "color": "text_color",
+      "position": {
+        "x": "center",
+        "y": 100
+      },
+      "alignment": "center"
+    },
+    "items": {
+      "start_y": 200,
+      "item_height": 80,
+      "item_width": "80%",
+      "margin_left": 100,
+      "margin_right": 100,
+      "background": {
+        "normal": "secondary_color",
+        "selected": "primary_color",
+        "border_radius": 10,
+        "border_width": 0
+      },
+      "icon": {
+        "width": 40,
+        "x": 120,
+        "text_spacing": 10,
+        "font_size": "emoji_small"
+      },
+      "text": {
+        "font_size": 24,
+        "color": "text_color",
+        "x": 170
+      },
+      "value": {
+        "font_size": 24,
+        "color": "text_color",
+        "margin_right": 120,
+        "alignment": "right"
+      }
+    },
+    "dropdown": {
+      "background_color": [40, 40, 40],
+      "border_color": [255, 255, 255],
+      "border_width": 3,
+      "border_radius": 8,
+      "min_width": 200,
+      "max_width": 500,
+      "item_height": 40,
+      "padding": 8,
+      "margin": 50,
+      "item_background": {
+        "normal": "transparent",
+        "selected": "highlight_color"
+      },
+      "item_text": {
+        "font_size": 24,
+        "color": {
+          "normal": "text_color",
+          "selected": "black"
+        }
+      }
+    },
+    "instructions": {
+      "font_size": 18,
+      "color": "text_color",
+      "position": {
+        "y_start": -120,
+        "spacing": 25
+      },
+      "alignment": "center"
+    }
+  },
+  "desktop": {
+    "app_icon": {
+      "size": 200,
+      "spacing": 100,
+      "background": {
+        "normal": [100, 150, 255],
+        "selected": [150, 200, 255],
+        "border_color": {
+          "normal": [128, 128, 128],
+          "selected": [255, 255, 255]
+        },
+        "border_width": {
+          "normal": 2,
+          "selected": 4
+        },
+        "border_radius": 20
+      },
+      "icon": {
+        "font_size": 96,
+        "color": "text_color",
+        "position": "center"
+      },
+      "name": {
+        "font_size": 48,
+        "color": "text_color",
+        "position": {
+          "x": "center",
+          "y": "center+15"
+        }
+      },
+      "description": {
+        "font_size": 32,
+        "color": "text_color",
+        "position": {
+          "x": "center",
+          "y": "bottom+65"
+        }
+      }
+    },
+    "title": {
+      "font_size": 96,
+      "color": "text_color",
+      "position": {
+        "x": "center",
+        "y": 100
+      },
+      "show": true
+    },
+    "instructions": {
+      "font_size": 32,
+      "color": "text_color",
+      "position": {
+        "y_start": -180,
+        "spacing": 25
+      }
+    }
+  },
+  "file_browser": {
+    "background": {
+      "color": [0, 0, 0, 230],
+      "border_color": [102, 102, 102],
+      "border_width": 2,
+      "border_radius": 10,
+      "padding": 20
+    },
+    "path_display": {
+      "background_color": [51, 51, 51],
+      "color": "text_color",
+      "font_size": 18,
+      "height": 40,
+      "padding": 10,
+      "border_radius": 5,
+      "margin_bottom": 20
+    },
+    "file_item": {
+      "width": 100,
+      "height": 120,
+      "spacing": 10,
+      "background": {
+        "normal": "transparent",
+        "hover": [255, 255, 255, 25],
+        "selected": [100, 150, 255, 76]
+      },
+      "icon": {
+        "size": 48,
+        "font_size": 32,
+        "color": "text_color",
+        "margin_bottom": 10
+      },
+      "name": {
+        "font_size": 14,
+        "color": "text_color",
+        "max_width": 100,
+        "alignment": "center"
+      }
+    }
+  },
+  "responsive": {
+    "1366": {
+      "settings_page": {
+        "items": {
+          "margin_left": 50,
+          "margin_right": 50,
+          "item_height": 50
+        },
+        "title": {
+          "font_size": 32
+        },
+        "items": {
+          "text": {
+            "font_size": 20
+          },
+          "value": {
+            "font_size": 20
+          }
+        }
+      },
+      "desktop": {
+        "app_icon": {
+          "size": 180,
+          "spacing": 80
+        }
+      }
+    },
+    "1024": {
+      "settings_page": {
+        "items": {
+          "margin_left": 30,
+          "margin_right": 30,
+          "item_height": 45
+        },
+        "title": {
+          "font_size": 28
+        },
+        "items": {
+          "text": {
+            "font_size": 18
+          },
+          "value": {
+            "font_size": 18
+          }
+        }
+      },
+      "desktop": {
+        "app_icon": {
+          "size": 160,
+          "spacing": 60
+        },
+        "app_icon": {
+          "icon": {
+            "font_size": 80
+          },
+          "name": {
+            "font_size": 40
+          },
+          "description": {
+            "font_size": 28
+          }
+        }
+      }
+    }
+  },
+  "animations": {
+    "fadeIn": {
+      "from": { "opacity": 0 },
+      "to": { "opacity": 1 },
+      "duration": 0.2,
+      "easing": "ease-out"
+    },
+    "slideIn": {
+      "from": { "transform": "translateY(-20px)", "opacity": 0 },
+      "to": { "transform": "translateY(0)", "opacity": 1 },
+      "duration": 0.3,
+      "easing": "ease-out"
+    }
+  }
+}

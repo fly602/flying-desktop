@@ -17,6 +17,7 @@ from .i18n import I18n
 from .audio import AudioManager
 from .settings import SettingsPage
 from .confirm_dialog import ConfirmDialog
+from .json_style_manager import get_style_manager
 
 
 class FlyingDesktop:
@@ -40,8 +41,14 @@ class FlyingDesktop:
         if not self.apps:
             print("警告: 没有找到可用的应用")
         
+        # 初始化样式管理器（屏幕尺寸将在Renderer初始化后设置）
+        self.style_manager = get_style_manager()
+        
         # 初始化各个模块（注意顺序：先渲染器再输入处理器）
         self.renderer = Renderer(self.config_manager)
+        # 设置样式管理器的屏幕尺寸
+        self.style_manager.set_screen_size(self.renderer.screen_width, self.renderer.screen_height)
+        
         self.input_handler = InputHandler(self.config_manager)
         self.app_launcher = AppLauncher()
         
@@ -90,12 +97,13 @@ class FlyingDesktop:
                     # 设置页面事件处理
                     result = self.settings.handle_input(event)
                     if result == 'back':
-                        # 如果没有应用，不允许返回桌面
+                        # 如果没有应用，不允许返回桌面，但允许ESC退出应用
                         if len(self.apps) > 0:
                             self.current_view = 'desktop'
                             self.audio.play('back')
                         else:
-                            self.audio.play('error')
+                            # 没有应用时，ESC直接退出应用
+                            running = False
                     elif result == 'saved':
                         self.reload_after_settings()
                         self.audio.play('confirm')
@@ -109,6 +117,9 @@ class FlyingDesktop:
                         if len(self.apps) == 1:
                             self.current_view = 'desktop'
                             print("添加了第一个应用，切换到桌面视图")
+                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and len(self.apps) == 0:
+                        # 设置页面中，没有应用时ESC直接退出
+                        running = False
                 else:
                     # 桌面事件处理 - 只处理按键按下事件
                     if event.type == pygame.KEYDOWN:
@@ -191,8 +202,8 @@ class FlyingDesktop:
                 elif self.current_view == 'settings':
                     # 设置页面的长按处理
                     if action in ['up', 'down']:
-                        # 这里可以添加设置页面的长按滚动支持
-                        pass
+                        # 调用设置页面的长按滚动处理
+                        self.settings.handle_long_press_scroll(action)
             
             # 手柄长按处理
             joystick_hold_actions = self.input_handler.handle_joystick_hold(current_time)

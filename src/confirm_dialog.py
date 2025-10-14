@@ -92,20 +92,20 @@ class ConfirmDialog:
         pygame.draw.rect(screen, self.GRAY, dialog_rect, border_radius=15)
         pygame.draw.rect(screen, self.WHITE, dialog_rect, 3, border_radius=15)
         
-        # 绘制标题
-        title_surface = font_large.render(self.title, True, self.WHITE)
+        # 绘制标题 - 使用中等字体大小，避免太大
+        title_surface = font_medium.render(self.title, True, self.WHITE)
         title_rect = title_surface.get_rect(centerx=screen_width // 2, top=dialog_y + 20)
         screen.blit(title_surface, title_rect)
         
-        # 绘制消息文本
+        # 绘制消息文本 - 使用小字体，避免字体过大
         # 处理多行消息
-        message_lines = self._wrap_text(self.message, font_medium, dialog_width - 40)
-        message_y = dialog_y + 70
+        message_lines = self._wrap_text(self.message, font_small, dialog_width - 40)
+        message_y = dialog_y + 60
         for line in message_lines:
-            message_surface = font_medium.render(line, True, self.WHITE)
+            message_surface = font_small.render(line, True, self.WHITE)
             message_rect = message_surface.get_rect(centerx=screen_width // 2, top=message_y)
             screen.blit(message_surface, message_rect)
-            message_y += 35
+            message_y += 25
         
         # 绘制按钮
         button_width = 120
